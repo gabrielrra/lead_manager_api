@@ -1,0 +1,6 @@
+@lead_manager_HostAddress = http://localhost:5034
+
+GET {{lead_manager_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
