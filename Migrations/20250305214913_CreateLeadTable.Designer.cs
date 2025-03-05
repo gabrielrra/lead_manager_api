@@ -12,7 +12,7 @@ using lead_manager.Data;
 namespace lead_manager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250305213328_CreateLeadTable")]
+    [Migration("20250305214913_CreateLeadTable")]
     partial class CreateLeadTable
     {
         /// <inheritdoc />
@@ -56,8 +56,8 @@ namespace lead_manager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
