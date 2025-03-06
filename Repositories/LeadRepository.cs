@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace lead_manager.Repositories;
 
-public class LeadRepository : ILeadRepository
+public class LeadRepository
 {
   private readonly AppDbContext _context;
 
@@ -28,6 +28,12 @@ public class LeadRepository : ILeadRepository
     _context.Leads.Add(lead);
     await _context.SaveChangesAsync();
     return lead;
+  }
+
+  public async Task AddBatchAsync(IEnumerable<Lead> leads)
+  {
+    _context.Leads.AddRange(leads);
+    await _context.SaveChangesAsync();
   }
 
   public async Task UpdateAsync(Lead lead)

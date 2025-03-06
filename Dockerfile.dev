@@ -1,0 +1,12 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS dev
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+COPY ["lead_manager.csproj", "."]
+RUN dotnet restore
+
+COPY . .
+RUN dotnet build
+
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080"]

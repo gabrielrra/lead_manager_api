@@ -12,8 +12,8 @@ using lead_manager.Data;
 namespace lead_manager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250305214913_CreateLeadTable")]
-    partial class CreateLeadTable
+    [Migration("20250306123538_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,10 @@ namespace lead_manager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("JobId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -56,7 +60,14 @@ namespace lead_manager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
