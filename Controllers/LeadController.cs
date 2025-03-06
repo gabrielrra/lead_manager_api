@@ -18,11 +18,14 @@ public class LeadController : ControllerBase
     }
 
     [HttpGet(Name = "GetLeads")]
-    public async Task<ActionResult<IEnumerable<Lead>>> Get()
+    public async Task<ActionResult<IEnumerable<Lead>>> Get(
+        [FromQuery] string sort = "desc",
+        [FromQuery] LeadStatus[]? status = null)
     {
         try
         {
-            var leads = await _leadService.GetAllLeadsAsync();
+            status = status?.Length > 0 ? status : [LeadStatus.Invited];
+            var leads = await _leadService.GetAllLeadsAsync(status, sort);
             return Ok(leads);
         }
         catch (Exception ex)
@@ -32,7 +35,28 @@ public class LeadController : ControllerBase
         }
     }
 
-    [HttpPost(Name = "GenerateFakeLeads")]
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> UpdateLead(int id, [FromBody] LeadUpdateDto data)
+    {
+        try
+        {
+            _logger.LogInformation($"Updating lead {id} with status {data.Status}");
+            var updatedLead = await _leadService.UpdateLeadPartialAsync(id, data.Status);
+            return Ok(updatedLead);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound("Lead not found");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating lead");
+            return StatusCode(500, "An error occurred while updating the lead");
+        }
+    }
+
+    [HttpPost]
+    [Route("fake")]
     public async Task<ActionResult<IEnumerable<Lead>>> GenerateFake([FromBody] int quantity = 10)
     {
         try

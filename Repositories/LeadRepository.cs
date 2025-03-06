@@ -13,9 +13,20 @@ public class LeadRepository
     _context = context;
   }
 
-  public async Task<IEnumerable<Lead>> GetAllAsync()
+  public async Task<IEnumerable<Lead>> GetAllAsync(LeadStatus[] status, string sort = "desc")
   {
-    return await _context.Leads.ToListAsync();
+    var query = _context.Leads.AsQueryable();
+
+    if (status != null && status.Length > 0)
+    {
+      query = query.Where(l => status.Contains(l.Status));
+    }
+
+    if (sort == "asc")
+    {
+      return await query.OrderBy(l => l.CreatedAt).ToListAsync();
+    }
+    return await query.OrderByDescending(l => l.CreatedAt).ToListAsync();
   }
 
   public async Task<Lead?> GetByIdAsync(int id)

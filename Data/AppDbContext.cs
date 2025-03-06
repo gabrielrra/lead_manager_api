@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using lead_manager.Models;
+using Bogus;
 
 namespace lead_manager.Data;
 
@@ -19,32 +20,18 @@ public class AppDbContext : DbContext
           if (leadCount == 0)
           {
             context.Set<Lead>().AddRange(
-              new Lead
-              {
-                Name = "John Doe",
-                Location = "New York",
-                Category = "Plumbing",
-                Description = "Bathroom remodeling project",
-                CreatedAt = DateTime.Now,
-                JobId = 12344,
-                Price = 2500,
-                Email = "john.doe@email.com",
-                Phone = "123-456-7890",
-                Status = LeadStatus.Invited
-              },
-              new Lead
-              {
-                Name = "Jane Smith",
-                Location = "Los Angeles",
-                Category = "Electrical",
-                Description = "Home rewiring project",
-                CreatedAt = DateTime.Now,
-                JobId = 12345,
-                Price = 1800,
-                Email = "jane.smith@email.com",
-                Phone = "123-456-7890",
-                Status = LeadStatus.Invited
-              }
+              new Faker<Lead>()
+              .RuleFor(l => l.Name, f => f.Name.FullName())
+              .RuleFor(l => l.Phone, f => f.Phone.PhoneNumber())
+              .RuleFor(l => l.Email, (f, l) => f.Internet.Email(l.Name))
+              .RuleFor(l => l.Location, f => f.Address.City())
+              .RuleFor(l => l.Category, f => f.Commerce.Department())
+              .RuleFor(l => l.Description, f => f.Lorem.Paragraph())
+              .RuleFor(l => l.CreatedAt, f => f.Date.Past())
+              .RuleFor(l => l.JobId, f => f.Random.Int(0))
+              .RuleFor(l => l.Price, f => f.Random.Int(10000, 100000))
+              .RuleFor(l => l.Status, f => LeadStatus.Invited)
+              .Generate(10)
             );
             context.SaveChanges();
           }
