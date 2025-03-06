@@ -57,12 +57,12 @@ public class LeadController : ControllerBase
 
     [HttpPost]
     [Route("fake")]
-    public async Task<ActionResult<IEnumerable<Lead>>> GenerateFake([FromBody] int quantity = 10)
+    public async Task<ActionResult<IEnumerable<Lead>>> GenerateFake([FromBody] LeadGenerateFakeDataDto data)
     {
         try
         {
-            await _leadService.GenerateFakeLeads(quantity);
-            return Ok($"Successfully generated {quantity} fake leads");
+            await _leadService.GenerateFakeLeads(data.Quantity);
+            return Ok($"Successfully generated {data.Quantity} fake leads");
         }
         catch (Exception ex)
         {
