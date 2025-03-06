@@ -29,7 +29,7 @@ public class Lead
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public required string JobId { get; set; }
+    public required int JobId { get; set; }
 
     public int Price { get; set; }
 

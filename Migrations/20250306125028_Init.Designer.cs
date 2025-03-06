@@ -12,7 +12,7 @@ using lead_manager.Data;
 namespace lead_manager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250306123538_Init")]
+    [Migration("20250306125028_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -48,9 +48,8 @@ namespace lead_manager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("JobId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Location")
                         .IsRequired()

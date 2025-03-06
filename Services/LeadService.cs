@@ -49,8 +49,8 @@ public class LeadService
         .RuleFor(l => l.Category, f => f.Commerce.Department())
         .RuleFor(l => l.Description, f => f.Lorem.Paragraph())
         .RuleFor(l => l.CreatedAt, f => f.Date.Past())
-        .RuleFor(l => l.JobId, f => f.Random.AlphaNumeric(8))
-        .RuleFor(l => l.Price, f => f.Random.Int(100, 10000))
+        .RuleFor(l => l.JobId, f => f.Random.Int())
+        .RuleFor(l => l.Price, f => f.Random.Int(10000, 100000))
         .RuleFor(l => l.Status, f => LeadStatus.Invited);
 
     var fakeLeads = faker.Generate(quantity);

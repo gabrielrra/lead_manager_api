@@ -45,9 +45,8 @@ namespace lead_manager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("JobId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Location")
                         .IsRequired()

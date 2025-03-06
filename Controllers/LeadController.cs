@@ -33,17 +33,17 @@ public class LeadController : ControllerBase
     }
 
     [HttpPost(Name = "GenerateFakeLeads")]
-    public async Task<ActionResult<IEnumerable<Lead>>> GenerateFake()
+    public async Task<ActionResult<IEnumerable<Lead>>> GenerateFake([FromBody] int quantity = 10)
     {
         try
         {
-            var leads = await _leadService.GetAllLeadsAsync();
-            return Ok(leads);
+            await _leadService.GenerateFakeLeads(quantity);
+            return Ok($"Successfully generated {quantity} fake leads");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error fetching leads");
-            return StatusCode(500, "An error occurred while fetching leads");
+            _logger.LogError(ex, "Error generating fake leads");
+            return StatusCode(500, "An error occurred while generating fake leads");
         }
     }
 }
